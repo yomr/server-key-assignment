@@ -8,7 +8,6 @@ class UnblockHandler
   end
 
   def handle
-    puts "got into hanlde"
     @db_conn.unblock_stale_keys
   end
 end

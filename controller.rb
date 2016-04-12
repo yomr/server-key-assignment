@@ -9,13 +9,16 @@ end
 get '/generate-keys' do
   api = Api.new
   number_of_keys_to_generate = params['number_of_keys']
-  if number_of_keys_to_generate
-    number_of_keys_generated = api.generate_keys(number_of_keys_to_generate.to_i)
-  else
-    number_of_keys_generated = api.generate_keys
+  begin
+    if number_of_keys_to_generate
+      number_of_keys_generated = api.generate_keys(number_of_keys_to_generate.to_i)
+    else
+      number_of_keys_generated = api.generate_keys
+    end
+    [200, "#{number_of_keys_generated} keys generated"]    
+  rescue StandardError => e
+    [422, "#{e}"]
   end
-
-  "hey, #{number_of_keys_generated} keys generated"
 end
 
 get '/get-key' do
@@ -31,21 +34,33 @@ end
 get '/unblock' do
   key = params['key']
   api = Api.new
-  api.unblock_key(key)
-  'Unblocked'
+  begin
+    api.unblock_key(key)
+    [200, 'Unblocked']
+  rescue StandardError => e
+    [404, "#{e}"]
+  end
 end
 
 get '/delete' do
   key = params['key']
   api = Api.new
-  api.delete_key(key)
-  'Deleted'
+  begin
+    api.delete_key(key)
+    [200, 'deleted']
+  rescue StandardError => e
+    [404, "#{e}"]
+  end
 end
 
 get '/keep-alive' do
   key = params['key']
   api = Api.new 
-  api.keep_alive(key)
-  'Updated Keep Alive time'
+  begin
+    api.keep_alive(key)
+    [200, 'Updated Keep Alive time']
+  rescue StandardError => e
+    [404, "#{e}"]
+  end
 end
 
