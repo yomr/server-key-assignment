@@ -1,12 +1,15 @@
 require_relative '../api'
 require 'spec_helper'
 require_relative '../schema'
+require_relative '../db'
 
 describe Api do
   before :each do
-    @api = Api.new
     @schema = Schema.new
     @schema.seed_data
+    @db = DB.new
+    @api = Api.new @db
+
   end
 
   describe "#initialize" do
