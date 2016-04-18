@@ -1,9 +1,8 @@
 require 'securerandom'
-require_relative 'db.rb'
 
 class Api
-  def initialize
-    @db_conn = DB.new
+  def initialize(db_conn)
+    @db_conn = db_conn
   end
 
   def generate_keys(number_of_keys = 100)
